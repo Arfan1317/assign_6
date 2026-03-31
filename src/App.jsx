@@ -1,15 +1,38 @@
 import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import productsData from './products.json';
 
-// Helper function to dynamically load images from your Vite assets folder
+// Helper for product images inside the 'products' folder
 const getImagePath = (imageName) => {
+  return new URL(`./assets/products/${imageName}`, import.meta.url).href;
+};
+
+// Helper for the banner image directly inside the 'assets' folder
+const getBannerPath = (imageName) => {
   return new URL(`./assets/${imageName}`, import.meta.url).href;
 };
 
 export default function App() {
-  const [cartCount, setCartCount] = useState(0);
+  // 1. The State variables
+  const [cart, setCart] = useState([]);
+  const [activeView, setActiveView] = useState('products');
+
+  // 2. The Cart Logic
+  const handleAddToCart = (product) => {
+    const isAlreadyInCart = cart.some((item) => item.id === product.id);
+    if (!isAlreadyInCart) {
+      setCart([...cart, product]);
+      toast.success(`${product.name} added to cart!`, {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-800">
+    <div className="min-h-screen bg-gray-50 font-sans text-slate-800">
+      <ToastContainer />
       
       {/* Navbar */}
       <nav className="w-full bg-white border-b border-gray-100">
@@ -33,13 +56,13 @@ export default function App() {
             {/* Actions - Right */}
             <div className="flex items-center space-x-8">
               {/* Cart Icon */}
-              <div className="relative cursor-pointer flex items-center">
+              <div className="relative cursor-pointer flex items-center" onClick={() => setActiveView('cart')}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-700 hover:text-[#7C3AED] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
-                {cartCount > 0 && (
+                {cart.length > 0 && (
                   <div className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full border-2 border-white box-content">
-                    {cartCount}
+                    {cart.length}
                   </div>
                 )}
               </div>
@@ -61,11 +84,11 @@ export default function App() {
           <div className="flex flex-row items-center justify-between w-full">
             
             {/* Left Side: Content Box */}
-            <div className="w-[65%] flex flex-col items-start ">
+            <div className="w-[65%] flex flex-col items-start">
               
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-50 text-[#7C3AED] mb-8">
                 <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#9465e4] "></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#9465e4]"></span>
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#7C3AED]"></span>
                 </span>
                 New: AI-Powered Tools Available
@@ -75,7 +98,7 @@ export default function App() {
                 Supercharge Your <br/> Digital Workflow
               </h1>
 
-              <p className="text-[18px] text-gray-500 mb-[16px] max-w-[36rem] ">
+              <p className="text-[18px] text-gray-500 mb-[16px] max-w-[36rem]">
                 Access premium AI tools, design assets, templates, and productivity software—all in one place. Start creating faster today.<br/>Explore Products
               </p>
 
@@ -96,7 +119,7 @@ export default function App() {
             {/* Right Side: Image Box */}
             <div className="w-[42%] flex justify-end pl-4">
               <img 
-                src={getImagePath('banner.png')} 
+                src={getBannerPath('banner.png')} 
                 alt="Digital Workflow Technology" 
                 className="w-full max-w-[550px] rounded-xl object-cover"
               />
@@ -105,25 +128,22 @@ export default function App() {
           </div>
         </div>
       </header>
-      {/*  Stats Section - STRICTLY LOCKED Row-Wise */}
+
+      {/* Stats Section - STRICTLY LOCKED Row-Wise */}
       <section className="w-full bg-gradient-to-r from-[#5a1ddf] to-[#712bb7]">
         <div className="max-w-7xl mx-auto px-4 lg:px-8 py-10 lg:py-[65px]">
-          {/* Forced flex-row and divide-x (vertical lines) */}
           <div className="flex flex-row justify-center items-center divide-x divide-white/80 text-center w-full">
             
-            {/* Stat 1 */}
             <div className="w-1/3 px-2 sm:px-4">
               <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-1 sm:mb-2">50K+</h2>
               <p className="text-white/80 text-xs sm:text-base lg:text-lg font-medium">Active Users</p>
             </div>
 
-            {/* Stat 2 */}
             <div className="w-1/3 px-2 sm:px-4">
               <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-1 sm:mb-2">200+</h2>
               <p className="text-white/80 text-xs sm:text-base lg:text-lg font-medium">Premium Tools</p>
             </div>
 
-            {/* Stat 3 */}
             <div className="w-1/3 px-2 sm:px-4">
               <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-1 sm:mb-2">4.9</h2>
               <p className="text-white/80 text-xs sm:text-base lg:text-lg font-medium">Rating</p>
@@ -132,6 +152,123 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      {/* Main Section: Premium Digital Tools */}
+      <main className="max-w-7xl mx-auto py-24 px-6 lg:px-8" id="products">
+        
+        {/* Section Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[#1E293B] mb-4">Premium Digital Tools</h2>
+          <p className="text-gray-500 text-lg max-w-2xl mx-auto">
+            Choose from our curated collection of premium digital products designed to boost your productivity and creativity.
+          </p>
+        </div>
+
+        {/* Toggling Buttons */}
+        <div className="flex justify-center items-center gap-4 mb-16">
+          <button 
+            onClick={() => setActiveView('products')}
+            className={`px-8 py-3 rounded-full font-bold text-[15px] transition-all duration-300 border ${
+              activeView === 'products' 
+                ? 'bg-gradient-to-r from-[#5a1ddf] to-[#9d44e1] text-white border-transparent shadow-lg' 
+                : 'bg-white border-gray-200 text-transparent bg-clip-text bg-gradient-to-r from-[#5a1ddf] to-[#9d44e1] hover:shadow-md'
+            }`}
+          >
+            Products
+          </button>
+          <button 
+            onClick={() => setActiveView('cart')}
+            className={`px-8 py-3 rounded-full font-bold text-[15px] transition-all duration-300 border ${
+              activeView === 'cart' 
+                ? 'bg-gradient-to-r from-[#5a1ddf] to-[#9d44e1] text-white border-transparent shadow-lg' 
+                : 'bg-white border-gray-200 text-transparent bg-clip-text bg-gradient-to-r from-[#5a1ddf] to-[#9d44e1] hover:shadow-md'
+            }`}
+          >
+            Cart ({cart.length})
+          </button>
+        </div>
+
+        {/* Products View */}
+        {activeView === 'products' && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
+            {productsData.map((product) => {
+              const isAdded = cart.some(item => item.id === product.id);
+              
+              // Determine tag colors based on tagType
+              let tagClasses = "bg-gray-100 text-gray-700";
+              if (product.tagType === 'best-seller') tagClasses = "bg-amber-100 text-amber-700";
+              if (product.tagType === 'popular') tagClasses = "bg-indigo-100 text-indigo-700";
+              if (product.tagType === 'new') tagClasses = "bg-green-100 text-green-700";
+
+              return (
+                <div 
+                  key={product.id} 
+                  className="bg-white p-8 rounded-3xl border border-gray-100 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 flex flex-col"
+                >
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center p-3 border border-gray-100">
+                      <img src={getImagePath(product.icon)} alt={product.name} className="w-full h-full object-contain" />
+                    </div>
+                    <span className={`text-[13px] font-bold px-4 py-1.5 rounded-full ${tagClasses}`}>
+                      {product.tag}
+                    </span>
+                  </div>
+                  
+                  <h3 className="text-2xl font-extrabold text-[#1E293B] mb-3">{product.name}</h3>
+                  <p className="text-gray-500 text-[15px] leading-relaxed mb-6 flex-grow">{product.description}</p>
+                  
+                  <div className="mb-6">
+                    <div className="flex items-baseline gap-1 mb-6">
+                      <span className="text-4xl font-extrabold text-[#1E293B]">${product.price}</span>
+                      <span className="text-gray-400 font-medium">/{product.period}</span>
+                    </div>
+
+                    <ul className="space-y-3">
+                      {product.features.map((feature, idx) => (
+                        <li key={idx} className="flex items-center gap-3 text-gray-500 text-[15px]">
+                          <svg className="w-5 h-5 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                          </svg>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <button 
+                    onClick={() => handleAddToCart(product)}
+                    disabled={isAdded}
+                    className={`w-full py-3.5 rounded-xl font-bold text-[15px] transition-all duration-300 flex justify-center items-center gap-2 mt-auto ${
+                      isAdded 
+                        ? 'bg-green-600 text-white cursor-default' 
+                        : 'bg-gradient-to-r from-[#5a1ddf] to-[#9d44e1] text-white hover:opacity-90 hover:shadow-lg'
+                    }`}
+                  >
+                    {isAdded ? (
+                      <>
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                        </svg>
+                        Added to Cart!
+                      </>
+                    ) : (
+                      'Buy Now'
+                    )}
+                  </button>
+                </div>
+              )
+            })}
+          </div>
+        )}
+
+        {/* Placeholder for Cart View - We will build this next! */}
+        {activeView === 'cart' && (
+           <div className="text-center py-20 bg-white rounded-3xl border border-gray-100">
+             <h3 className="text-2xl font-bold text-gray-400">Cart View Coming Next...</h3>
+           </div>
+        )}
+
+      </main>
       
     </div>
   );
