@@ -176,7 +176,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Main Section: Premium Digital Tools */}
+      {/* Main Section*/}
       <main className="max-w-7xl mx-auto py-24 px-6 lg:px-8" id="products">
         
         {/* Section Header */}
@@ -344,6 +344,62 @@ export default function App() {
         )}
 
       </main>
+    {/* Steps Section */}
+      <section className="w-full bg-gray-100 py-24 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-extrabold text-[#1E293B] mb-4">Get Started In 3 Steps</h2>
+            <p className="text-gray-500 text-[17px] font-medium">
+              Start using premium digital tools in minutes, not hours.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-3 gap-8 w-full">
+
+            <div className="bg-white rounded-3xl border border-gray-200 p-10 flex flex-col items-center text-center relative shadow-sm hover:shadow-md transition-all">
+              <div className="absolute top-6 right-6 w-9 h-9 bg-gradient-to-r from-[#5a1ddf] to-[#9d44e1] text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md">
+                01
+              </div>
+              <div className="w-24 h-24 bg-violet-50 rounded-full flex items-center justify-center mb-8 p-6">
+                <img src={getBannerPath('user.png')} alt="Create Account" className="w-full h-full object-contain" />
+              </div>
+              <h3 className="text-[22px] font-extrabold text-[#1E293B] mb-4">Create Account</h3>
+              <p className="text-gray-500 font-medium leading-relaxed text-[15px]">
+                Sign up for free in seconds. No credit card required to get started.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-3xl border border-gray-200 p-10 flex flex-col items-center text-center relative shadow-sm hover:shadow-md transition-all">
+              <div className="absolute top-6 right-6 w-9 h-9 bg-gradient-to-r from-[#5a1ddf] to-[#9d44e1] text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md">
+                02
+              </div>
+              <div className="w-24 h-24 bg-violet-50 rounded-full flex items-center justify-center mb-8 p-6">
+                <img src={getBannerPath('package.png')} alt="Choose Products" className="w-full h-full object-contain" />
+              </div>
+              <h3 className="text-[22px] font-extrabold text-[#1E293B] mb-4">Choose Products</h3>
+              <p className="text-gray-500 font-medium leading-relaxed text-[15px]">
+                Browse our catalog and select the tools that fit your needs.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-3xl border border-gray-200 p-10 flex flex-col items-center text-center relative shadow-sm hover:shadow-md transition-all">
+              <div className="absolute top-6 right-6 w-9 h-9 bg-gradient-to-r from-[#5a1ddf] to-[#9d44e1] text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md">
+                03
+              </div>
+              <div className="w-24 h-24 bg-violet-50 rounded-full flex items-center justify-center mb-8 p-6">
+                <img src={getBannerPath('rocket.png')} alt="Start Creating" className="w-full h-full object-contain" />
+              </div>
+              <h3 className="text-[22px] font-extrabold text-[#1E293B] mb-4">Start Creating</h3>
+              <p className="text-gray-500 font-medium leading-relaxed text-[15px]">
+                Download and start using your premium tools immediately.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
 
     </div>
   );
