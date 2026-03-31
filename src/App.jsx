@@ -1,121 +1,111 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState } from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
+// Helper function to dynamically load images from your Vite assets folder
+const getImagePath = (imageName) => {
+  return new URL(`./assets/${imageName}`, import.meta.url).href;
+};
+
+export default function App() {
+  const [cartCount, setCartCount] = useState(0);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="min-h-screen bg-white font-sans text-slate-800">
+      
+      {/* Navbar */}
+      <nav className="w-full bg-white border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            
+            {/* Logo - Left */}
+            <div className="flex-shrink-0">
+              <span className="text-[40px] font-extrabold tracking-wide bg-gradient-to-r from-[#5a1ddf] to-[#9d44e1] bg-clip-text text-transparent">DigiTools</span>
+            </div>
 
-      <div className="ticks"></div>
+            {/* Navigation Links - Center */}
+            <div className="md:flex space-x-10">
+              <a href="#products" className="text-gray-600 hover:text-[#7C3AED] transition font-bold">Products</a>
+              <a href="#features" className="text-gray-600 hover:text-[#7C3AED] transition font-bold">Features</a>
+              <a href="#pricing" className="text-gray-600 hover:text-[#7C3AED] transition font-bold">Pricing</a>
+              <a href="#testimonials" className="text-gray-600 hover:text-[#7C3AED] transition font-bold">Testimonials</a>
+              <a href="#faq" className="text-gray-600 hover:text-[#7C3AED] transition font-bold">FAQ</a>
+            </div>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
+            {/* Actions - Right */}
+            <div className="flex items-center space-x-8">
+              {/* Cart Icon */}
+              <div className="relative cursor-pointer flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-700 hover:text-[#7C3AED] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+                {cartCount > 0 && (
+                  <div className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full border-2 border-white box-content">
+                    {cartCount}
+                  </div>
+                )}
+              </div>
+              
+              <button className="font-bold text-gray-700 hover:text-[#7C3AED] transition">Login</button>
+              <button className="bg-gradient-to-r from-[#5a1ddf] to-[#9d44e1] text-white font-bold px-6 py-3 rounded-full border-2 border-transparent hover:bg-none hover:bg-white hover:text-violet-700 hover:border-violet-700 transition-all">
+                Get Started
+              </button>
+            </div>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+          </div>
+        </div>
+      </nav>
+
+      {/* Banner */}
+      <header className="w-full bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
+          
+          <div className="flex flex-row items-center justify-between w-full">
+            
+            {/* Left Side: Content Box */}
+            <div className="w-[65%] flex flex-col items-start ">
+              
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-50 text-[#7C3AED] mb-8">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#9465e4] "></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#7C3AED]"></span>
+                </span>
+                New: AI-Powered Tools Available
+              </div>
+
+              <h1 className="text-5xl xl:text-[70px] font-black text-[#1E293B] leading-[1.1] mb-6 tracking-tight">
+                Supercharge Your <br/> Digital Workflow
+              </h1>
+
+              <p className="text-[18px] text-gray-500 mb-[16px] max-w-[36rem] ">
+                Access premium AI tools, design assets, templates, and productivity software—all in one place. Start creating faster today.<br/>Explore Products
+              </p>
+
+              <div className="flex flex-wrap items-center gap-4 pt-5">
+                <a href="#products" className="bg-gradient-to-r from-[#5a1ddf] to-[#9d44e1] text-white font-bold py-3.5 px-8 rounded-full border-2 border-transparent hover:bg-none hover:bg-white hover:text-violet-700 hover:border-violet-700 transition-all">
+                  Explore Products
+                </a>
+                <button className="flex items-center gap-2 border border-violet-200 text-[#7C3AED] font-bold py-3 px-6 rounded-full hover:bg-violet-50 transition">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                  </svg>
+                  Watch Demo
+                </button>
+              </div>
+
+            </div>
+
+            {/* Right Side: Image Box */}
+            <div className="w-[42%] flex justify-end pl-4">
+              <img 
+                src={getImagePath('banner.png')} 
+                alt="Digital Workflow Technology" 
+                className="w-full max-w-[550px] rounded-xl object-cover"
+              />
+            </div>
+
+          </div>
+        </div>
+      </header>
+      
+    </div>
+  );
 }
-
-export default App
