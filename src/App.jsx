@@ -105,6 +105,33 @@ export default function App() {
           </div>
         </div>
       </header>
+      {/*  Stats Section - STRICTLY LOCKED Row-Wise */}
+      <section className="w-full bg-gradient-to-r from-[#5a1ddf] to-[#712bb7]">
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 py-10 lg:py-[65px]">
+          {/* Forced flex-row and divide-x (vertical lines) */}
+          <div className="flex flex-row justify-center items-center divide-x divide-white/80 text-center w-full">
+            
+            {/* Stat 1 */}
+            <div className="w-1/3 px-2 sm:px-4">
+              <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-1 sm:mb-2">50K+</h2>
+              <p className="text-white/80 text-xs sm:text-base lg:text-lg font-medium">Active Users</p>
+            </div>
+
+            {/* Stat 2 */}
+            <div className="w-1/3 px-2 sm:px-4">
+              <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-1 sm:mb-2">200+</h2>
+              <p className="text-white/80 text-xs sm:text-base lg:text-lg font-medium">Premium Tools</p>
+            </div>
+
+            {/* Stat 3 */}
+            <div className="w-1/3 px-2 sm:px-4">
+              <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-1 sm:mb-2">4.9</h2>
+              <p className="text-white/80 text-xs sm:text-base lg:text-lg font-medium">Rating</p>
+            </div>
+
+          </div>
+        </div>
+      </section>
       
     </div>
   );
