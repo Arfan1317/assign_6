@@ -30,6 +30,29 @@ export default function App() {
     }
   };
 
+  // NEW: Remove from cart logic
+  const handleRemoveFromCart = (productId) => {
+    setCart(cart.filter(item => item.id !== productId));
+    toast.error("Item removed from cart.", {
+      position: "bottom-right",
+      autoClose: 2000,
+    });
+  };
+
+  // NEW: Checkout logic
+  const handleCheckout = () => {
+    if (cart.length === 0) return;
+    setCart([]); // Clears the cart
+    setActiveView('products'); // Sends user back to products
+    toast.success("Purchase successful! Cart cleared.", {
+      position: "top-center",
+      autoClose: 3000,
+    });
+  };
+
+  // NEW: Calculate total price
+  const totalPrice = cart.reduce((total, item) => total + item.price, 0);
+
   return (
     <div className="min-h-screen bg-gray-50 font-sans text-slate-800">
       <ToastContainer />
@@ -190,7 +213,7 @@ export default function App() {
 
         {/* Products View */}
         {activeView === 'products' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
+          <div className="grid grid-cols-3 gap-8 w-full">
             {productsData.map((product) => {
               const isAdded = cart.some(item => item.id === product.id);
               
@@ -203,7 +226,7 @@ export default function App() {
               return (
                 <div 
                   key={product.id} 
-                  className="bg-white p-8 rounded-3xl border border-gray-100 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 flex flex-col"
+                  className="bg-white p-8 rounded-3xl border border-gray-170 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 flex flex-col"
                 >
                   <div className="flex justify-between items-start mb-6">
                     <div className="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center p-3 border border-gray-100">
@@ -219,7 +242,7 @@ export default function App() {
                   
                   <div className="mb-6">
                     <div className="flex items-baseline gap-1 mb-6">
-                      <span className="text-4xl font-extrabold text-[#1E293B]">${product.price}</span>
+                      <span className="text-2xl font-extrabold text-[#1E293B]">${product.price}</span>
                       <span className="text-gray-400 font-medium">/{product.period}</span>
                     </div>
 
@@ -261,15 +284,67 @@ export default function App() {
           </div>
         )}
 
-        {/* Placeholder for Cart View - We will build this next! */}
+        {/* Cart View */}
         {activeView === 'cart' && (
-           <div className="text-center py-20 bg-white rounded-3xl border border-gray-100">
-             <h3 className="text-2xl font-bold text-gray-400">Cart View Coming Next...</h3>
-           </div>
+          <div className="max-w-4xl mx-auto bg-white p-8 md:p-10 rounded-[2rem] border border-gray-200 shadow-sm">
+            <h3 className="text-[22px] font-extrabold text-[#1E293B] mb-8">Your Cart</h3>
+
+            {cart.length === 0 ? (
+              <div className="text-center py-16">
+                <p className="text-gray-500 text-lg mb-4">Your cart is empty.</p>
+                <button 
+                  onClick={() => setActiveView('products')} 
+                  className="text-[#7C3AED] font-bold hover:underline"
+                >
+                  Browse Products
+                </button>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-5">
+                
+                {/* Cart Items List */}
+                {cart.map(item => (
+                  <div key={item.id} className="flex items-center justify-between p-5 bg-gray-50 rounded-2xl border border-gray-100 transition-all hover:border-gray-200">
+                    <div className="flex items-center gap-5">
+                      <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center p-3 border border-gray-100 shadow-sm">
+                        <img src={getImagePath(item.icon)} alt={item.name} className="w-full h-full object-contain" />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <h4 className="font-extrabold text-[#1E293B] text-[16px]">{item.name}</h4>
+                        <p className="text-gray-500 font-medium text-[14px]">${item.price}</p>
+                      </div>
+                    </div>
+                    
+                    <button
+                      onClick={() => handleRemoveFromCart(item.id)}
+                      className="text-[#ff4d6d] font-bold text-[14px] hover:text-red-600 transition pr-2"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+
+                {/* Total Price Section */}
+                <div className="flex justify-between items-center mt-4 pt-6">
+                  <span className="text-gray-400 font-medium text-[15px]">Total:</span>
+                  <span className="text-2xl font-black text-[#1E293B]">${totalPrice}</span>
+                </div>
+
+                {/* Checkout Button */}
+                <button
+                  onClick={handleCheckout}
+                  className="w-full mt-4 py-4 rounded-xl font-bold text-[15px] bg-gradient-to-r from-[#5a1ddf] to-[#9d44e1] text-white hover:opacity-90 hover:shadow-lg transition-all duration-300"
+                >
+                  Proceed To Checkout
+                </button>
+                
+              </div>
+            )}
+          </div>
         )}
 
       </main>
-      
+
     </div>
   );
 }
