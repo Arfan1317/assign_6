@@ -3,22 +3,19 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import productsData from './products.json';
 
-// Helper for product images inside the 'products' folder
 const getImagePath = (imageName) => {
   return new URL(`./assets/products/${imageName}`, import.meta.url).href;
 };
 
-// Helper for the banner image directly inside the 'assets' folder
 const getBannerPath = (imageName) => {
   return new URL(`./assets/${imageName}`, import.meta.url).href;
 };
 
 export default function App() {
-  // 1. The State variables
+
   const [cart, setCart] = useState([]);
   const [activeView, setActiveView] = useState('products');
 
-  // 2. The Cart Logic
   const handleAddToCart = (product) => {
     const isAlreadyInCart = cart.some((item) => item.id === product.id);
     if (!isAlreadyInCart) {
@@ -30,7 +27,6 @@ export default function App() {
     }
   };
 
-  // NEW: Remove from cart logic
   const handleRemoveFromCart = (productId) => {
     setCart(cart.filter(item => item.id !== productId));
     toast.error("Item removed from cart.", {
@@ -39,18 +35,17 @@ export default function App() {
     });
   };
 
-  // NEW: Checkout logic
   const handleCheckout = () => {
     if (cart.length === 0) return;
-    setCart([]); // Clears the cart
-    setActiveView('products'); // Sends user back to products
+    setCart([]); 
+    setActiveView('products'); 
     toast.success("Purchase successful! Cart cleared.", {
       position: "top-center",
       autoClose: 3000,
     });
   };
 
-  // NEW: Calculate total price
+  // Calculate total price
   const totalPrice = cart.reduce((total, item) => total + item.price, 0);
 
   return (
@@ -499,6 +494,45 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      {/* Last Section */}
+      <section className="w-full bg-gradient-to-r from-[#5a1ddf] to-[#9d44e1] py-24">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center flex flex-col items-center">
+
+          <h2 className="text-[42px] md:text-[50px] font-bold text-white mb-5 tracking-tight">
+            Ready To Transform Your Workflow?
+          </h2>
+
+          <p className="text-white/90 text-[15px] md:text-[20px] font-medium mb-10 leading-[1.7]">
+            Join thousands of professionals who are already using Digitools to work smarter.<br />
+            Start your free trial today.
+          </p>
+          
+          <div className="flex flex-wrap justify-center items-center gap-4 mb-8 w-full">
+            
+            <a 
+              href="#products" 
+              className="bg-white text-[#7C3AED] font-bold text-[16px] py-3.5 px-8 rounded-full border-2 border-white transition-all duration-300 hover:bg-transparent hover:text-white hover:shadow-lg"
+            >
+              Explore Products
+            </a>
+            
+            <a 
+              href="#pricing" 
+              className="bg-transparent text-white font-bold text-[16px] py-3.5 px-8 rounded-full border-2 border-white transition-all duration-300 hover:bg-white hover:text-[#7C3AED] hover:shadow-lg"
+            >
+              View Pricing
+            </a>
+            
+          </div>
+          
+          <p className="text-white/80 text-[15px] font-medium tracking-wide">
+            14-day free trial • No credit card required • Cancel anytime
+          </p>
+          
+        </div>
+      </section>
+
 
     </div>
   );
